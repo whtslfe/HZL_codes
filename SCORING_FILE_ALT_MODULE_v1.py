@@ -1,8 +1,4 @@
 
-# coding: utf-8
-
-# In[1]:
-
 
 import pandas as pd
 import numpy as np
@@ -17,50 +13,13 @@ import time
 import datetime
 
 
-# In[845]:
-
-
 indir = 'Z:/onsitereportservice/mom'
 
-
-# In[846]:
-
-
-# indir = 'C:/Users/ranglani hardev/Desktop/HZL/DATA/Raw Data/COPY AGAIN/BCG'
-
-
-# In[847]:
-
-
 time_now_actual = (pd.to_datetime('now') + pd.to_timedelta(5, unit='h') + pd.to_timedelta(30, unit='m')  ).to_datetime() 
-
-
-# In[848]:
-
 
 time_now = (pd.to_datetime('now') ).to_datetime()
 time_l12 = (pd.to_datetime('now') -  pd.to_timedelta(12, unit='h') ).to_datetime()
 
-
-# In[849]:
-
-
-time_now
-
-
-# In[850]:
-
-
-time_l12
-
-
-# In[851]:
-
-
-time_now_actual
-
-
-# In[852]:
 
 
 if time_now_actual.month < 10:
@@ -79,21 +38,11 @@ else:
     hour_now_actual = str(time_now_actual.hour)     
 
 
-# In[853]:
-
 
 time_now_l1 = time_now_actual - pd.to_timedelta(1, unit='h')
 time_now_l2 = time_now_actual - pd.to_timedelta(2, unit='h')
 time_now_l3 = time_now_actual - pd.to_timedelta(3, unit='h')
 
-
-# In[854]:
-
-
-pd.to_datetime(time_now_l1)
-
-
-# In[855]:
 
 
 if time_now_l1.month < 10:
@@ -112,8 +61,6 @@ else:
     hour_now_l1 = str(time_now_l1.hour)     
 
 
-# In[856]:
-
 
 if time_now_l2.month < 10:
     time_now_l2 = "0" + str(time_now_l2.month) 
@@ -131,20 +78,10 @@ else:
     hour_now_l2 = str(time_now_l2.hour)     
 
 
-# In[857]:
-
 
 datefield_l1 = str(time_now_l1.year) + "_" + str(month_now_l1) + str(day_now_l1) + "_" + str(hour_now_l1) 
 datefield_l2 = str(time_now_l2.year) + "_" + str(month_now_l2) + str(day_now_l2) + "_" + str(hour_now_l2) 
 
-
-# In[858]:
-
-
-hour_now_l2
-
-
-# In[859]:
 
 
 if time_now.month < 10:
@@ -163,27 +100,16 @@ else:
     hour_now = str(time_now.hour)     
 
 
-# In[860]:
-
 
 file_name = "C:/Users/hotsdt/Desktop/SCORING_CODE/RAW_DATA/" + str(time_now_actual.year) + "_" + str(month_now_actual) + str(day_now_actual) + "_" + str(hour_now_actual) + 'rolling3_hrs.csv'
 
-
-# In[861]:
 
 
 datefield = str(time_now.year) + "_" + str(month_now) + str(day_now) + "_" + str(hour_now) 
 
 
-# In[862]:
-
-
 datefield_actual = str(time_now_actual.year) + "_" + str(month_now_actual) + str(day_now_actual) + "_" + str(hour_now_actual) 
 
-
-
-
-# In[867]:
 
 
 if time_l12.month < 10:
@@ -197,20 +123,11 @@ else:
     day_l12 = str(time_l12.day)     
 
 
-# In[868]:
-
-
 indir2 = indir  + "/" + str(time.strftime("%Y") ) + month_l12 + "/" + day_l12
 
 
-# In[869]:
-
 
 indir3 = indir  + "/" + str(time.strftime("%Y") ) + month_now + "/" + day_now 
-
-
-# In[870]:
-
 
 
 
@@ -219,9 +136,6 @@ content1_write = open(file_name, 'w', newline= '')
 csvwriter = csv.writer(content1_write)
 
 cntfile = 0
-
-
-# In[ ]:
 
 
 
@@ -248,9 +162,6 @@ for root, dirs, filenames in os.walk(indir3):
                     csvwriter.writerow(j.values())
 
 
-# In[ ]:
-
-
 if indir3!= indir2:
     for root, dirs, filenames in os.walk(indir2):
 
@@ -274,13 +185,7 @@ if indir3!= indir2:
                         csvwriter.writerow(j.values())
 
 
-# In[ ]:
-
-
 content1_write.close()
-
-
-# In[ ]:
 
 
 df_all = pd.read_csv(file_name)
@@ -296,49 +201,24 @@ f.close()
 indir = 'Z:/onsitereportservice/mom'
 
 
-# In[665]:
-
-
-df_all.shape
-
-
-# In[666]:
-
 
 df_all = df_all.drop_duplicates()
 
 
-# In[667]:
 
-
-df_all.shape
-
-
-# In[668]:
 
 
 df_all['Device'].value_counts()
 
-
-# In[669]:
 
 
 sandvik_trucks = ['T663D110','T663D113','T663D118','T663D120','T663D143','T763D173','T763D174','T763D131','T763D151']
 
 
-# In[670]:
-
 
 df_all = df_all[df_all['Device'].isin(sandvik_trucks) ]
 
 
-# In[671]:
-
-
-df_all['Device'].value_counts()
-
-
-# In[672]:
 
 
 df_all['TimeStamp'] = pd.to_datetime(df_all['TimeStamp'], errors = 'coerce' )
@@ -350,52 +230,16 @@ df_all_filtered = df_all[df_all['TimeRank']==1]
 del df_all
 
 
-# In[673]:
-
-
-df_all_filtered.shape
-
-
-# In[674]:
-
-
-df_all_filtered['Device'].value_counts()
-
-
-# In[675]:
-
 
 df_all_filtered = df_all_filtered[(df_all_filtered['TimeStamp']>= time_l12) & (df_all_filtered['TimeStamp']<= time_now)]   
 
-
-# In[676]:
-
-
-df_all_filtered.shape
-
-
-# In[677]:
-
-
-df_all_filtered['Device'].value_counts()
-
-
-# In[678]:
 
 
 df_all_filtered['TimeStamp'] = pd.to_datetime(df_all_filtered['TimeStamp'] + pd.to_timedelta(5, unit='h') + pd.to_timedelta(30, unit='m') )
 
 
-
-
-# In[682]:
-
-
 df_all_filtered = df_all_filtered[df_all_filtered['Device'].isin(sandvik_trucks) ]
 
-
-
-# In[684]:
 
 
 df_all_filtered['Value'] =  df_all_filtered['Value'].astype(float)
@@ -411,121 +255,63 @@ df_all_filtered3 = df_all_filtered2[df_all_filtered2['Engine RPM']>=1500]
 df_all_filtered3['TimeStamp_h'] = pd.to_datetime(df_all_filtered3['TimeStamp_n'].apply(lambda x: x.replace(minute=0) )  )
 
 
-# In[685]:
-
-
 df_all_filtered3 = df_all_filtered3.sort_values(['Device', 'TimeStamp_n'], ascending = [1,1] )
 
-
-# In[686]:
-
-
-# df_all_filtered3.head()
-
-
-# In[687]:
 
 
 df_all_new_oct_hr7 = df_all_filtered3.copy()
 
 
-# In[688]:
-
-
 df_all_new_oct_hr7['final_chunk2'] =  df_all_new_oct_hr7['Device']
 
-
-# In[689]:
 
 
 df_all_new_oct_hr7 = df_all_new_oct_hr7.sort_values(['Device', 'TimeStamp_n'], ascending = [1,1] )
 
 
-# In[690]:
-
-
 df_oct_groupby = pd.DataFrame(df_all_new_oct_hr7.groupby('final_chunk2')['TimeStamp_n'].count())
-
-
-# In[691]:
 
 
 df_oct_groupby.columns = ['TimeStamp_count']
 
 
-# In[692]:
-
-
 df_oct_groupby['final_chunk2'] = df_oct_groupby.index
 
-
-# In[693]:
 
 
 df_oct2 = pd.merge(df_all_new_oct_hr7[df_all_new_oct_hr7['Engine RPM']>=1500] , df_oct_groupby[df_oct_groupby['TimeStamp_count']>=61], how = 'inner', on = 'final_chunk2' )
 
 
-# In[694]:
-
-
-# In[695]:
-
-
-# In[696]:
-
 
 df_oct2['TimeStamp_n'] = pd.to_datetime(df_oct2['TimeStamp_n'])
 
-
-# In[697]:
 
 
 df_oct4 = df_oct2.melt(id_vars = ['Device', 'final_chunk2','TimeStamp_n'] )
 
 
-# In[698]:
-
 
 df_oct4 = df_oct4.sort_values(['Device', 'final_chunk2', 'variable', 'TimeStamp_n'], ascending = [1,1,1,1] )
 
-
-# In[699]:
 
 
 df_oct4['TimeStamp_n'] = pd.to_datetime(df_oct4['TimeStamp_n'])
 
 
-# In[700]:
-
-
 df_oct4['TimeRank'] = df_oct4.groupby(['Device','final_chunk2','variable' ])['TimeStamp_n'].rank(ascending = True)
-
-
-# In[701]:
 
 
 df_oct5 = df_oct4.groupby(['final_chunk2','variable'], as_index = False ).fillna(method='ffill')
 
 
-# In[702]:
-
-
 df_oct5 = df_oct5.sort_values(['Device', 'final_chunk2', 'variable', 'TimeStamp_n'], ascending = [1,1,1,1] )
-
-
-# In[703]:
 
 
 df_oct6 = df_oct5.copy()
 
 
-# In[704]:
-
-
 df_oct6['rolling_15_val_mean'] = df_oct6.groupby(['final_chunk2','variable'])['value'].apply(lambda x:x.rolling(center=False,window=15).mean())
 
-
-# In[705]:
 
 
 def rollupflag(df):
@@ -539,61 +325,40 @@ def rollupflag(df):
         return "4"
 
 
-# In[706]:
-
 
 df_oct6['RollupFlag'] = df_oct6.apply(rollupflag, axis = 1)
 
-
-# In[707]:
 
 
 df_oct6['ColumnNames'] = df_oct6['variable'].astype(str) + df_oct6['RollupFlag'].astype(str)
 
 
-# In[708]:
-
 
 imp_var = [ 'Ambient Temperature',	'Box and Steering Pump Pressure',	'Brake Circuit Charging Pressure',	'Brake Hydraulic Oil Temperature',	'Converter Lock Up',	'Dropbox Oil Temperature',	'Engine Coolant Temperature',	'Engine Cooler Pump Pressure',	'Engine Fuel Rate',	'Engine Intake Manifold Pressure',	'Engine Intake Manifold Temperature',	'Engine Load',	'Engine Oil Pressure',	'Engine Oil Temperature',	'Engine RPM',	'Engine Torque',	'Front Axle Brake Pressure',	'Hydraulic Oil Temperature',	'Machine Speed',	'Rear Axle Brake Pressure',	'Throttle Request',	'Transmission Oil Pressure',	'Transmission Oil Temperature',	'Transmission Retarder Active',	'Transmission Retarder Control',	'Transmission Retarder Output Oil Temperature','Upbox Oil Temperature'    ]
 
-
-# In[709]:
 
 
 df_oct6_impvar = df_oct6[df_oct6['variable'].isin(imp_var)]
 
 
-# In[710]:
-
 
 df_oct6_impvar['rolling_15_val_mean'] = df_oct6_impvar['rolling_15_val_mean'].astype(float) 
 
-
-# In[711]:
 
 
 df_oct6_impvar2 = df_oct6_impvar.pivot_table(index = ['Device', 'final_chunk2'],  columns = 'ColumnNames', values = 'rolling_15_val_mean', aggfunc=np.mean )
 
 
-# In[712]:
-
 
 df_oct6_impvar2.reset_index(level=0, inplace=True)
 
-
-# In[713]:
 
 
 df_oct6_impvar2['Device2'] = df_oct6_impvar2['Device']
 
 
-# In[714]:
-
-
 del df_oct6_impvar2['Device'] 
 
-
-# In[715]:
 
 
 df_oct6_impvar2['Avg_Ambient_Temperature1'] =  					df_oct6_impvar2.iloc[:, 0:4].mean(axis=1)
@@ -707,34 +472,23 @@ df_oct6_impvar2['Avg_Upbox_Oil_Temperature3'] =  					df_oct6_impvar2.iloc[:, 10
 df_oct6_impvar2['Avg_Upbox_Oil_Temperature4'] =  					df_oct6_impvar2.iloc[:, 107:108].mean(axis=1)
 
 
-# In[716]:
 
 
 df_oct6_impvar2.to_csv('C:/Users/hotsdt/Desktop/SCORING_CODE/INPUT_DATA_ALL/df_input_' +  datefield_actual + 'rolling_3hrs.csv')
 
 
 
-# In[717]:
-
-
 list_event_history_signals = ['AlarmActiveTime',	'AlarmCount',	'AlarmInstanceCount',	'AlarmLimit',	'AlarmOperatorName',	'AlarmStartTime',	'Description',	'IsHighLimit',	'LimitValueState',	'TimeStamp',	'Title',	'WarningActiveTime',	'WarningCount',	'WarningInstanceCount',	'WarningLimit',	'WarningOperatorName',	'WarningStartTime']
 
-
-# In[718]:
 
 
 list_event_history_signals2 = ['Device', 'Title',	'AlarmInstanceCount',	'TimeStamp']
 
 
-# In[719]:
 
-
-datefield
-
-
-# In[720]:
 
 file_alerts = "C:/Users/hotsdt/Desktop/SCORING_CODE/RAW_DATA/Raw_Alerts_" + datefield_actual  + "rolling_3hrs.csv" 
+
 
 # /NEW DATA UTC TIMZONE/Alerts Data/
 
@@ -839,94 +593,56 @@ for root, dirs, filenames in os.walk(indir3):
 content1_write.close()
 
 
-# In[721]:
 
 
 df_alerts = pd.read_csv(file_alerts) 
 
 
-# In[722]:
-
-
-# df_alerts.head()
-
-
-# In[723]:
-
-
-# In[726]:
 
 
 df_alerts['TimeStamp'] = pd.to_datetime(df_alerts['TimeStamp'])
 
 
-# In[727]:
-
 
 df_alerts = df_alerts[(df_alerts['TimeStamp']<=pd.to_datetime(time_now))&(df_alerts['TimeStamp']>=pd.to_datetime(time_now)- pd.to_timedelta(6, unit='h') )]
 
 
-# In[728]:
 
 
 df_alerts = df_alerts.drop_duplicates()
 
 
-# In[729]:
-
 
 df_alerts = df_alerts[df_alerts['Device'].isin(sandvik_trucks) ]
 
 
-# In[730]:
-
-
-# C:/Users/hotsdt/Desktop/SCORING_CODE
-
-
-# In[731]:
 
 
 df_alarmtype = pd.read_excel('C:/Users/hotsdt/Desktop/SCORING_CODE/AlarmType_Categorization.xlsx')
 
 
-# In[732]:
 
 
 df_alerts2 = pd.merge(df_alerts, df_alarmtype, how = 'left', on = 'Title' )
 
 
-# In[733]:
-
 
 df_alerts3 = df_alerts2.groupby(['Device', 'AlarmType'] , as_index=False).agg({'AlarmInstanceCount': 'sum'} )
 
-
-# In[734]:
 
 
 df_alerts4 = df_alerts3.pivot_table(index = ['Device'], columns = 'AlarmType', values = 'AlarmInstanceCount')
 
 
-# In[735]:
-
 
 df_alerts4['Device'] = df_alerts4.index 
-
-
-# In[736]:
 
 
 df_alerts4 = df_alerts4.reset_index(drop=True)
 
 
-# In[737]:
-
-
 list_all_alert_col = ['Brake',	'Electrical',	'Engine_Others',	'Engine',	'Pressure',	'Sensor',	'Temperature',	'TM',	'TM_Others',	'Weighing',	'Others']
 
-
-# In[738]:
 
 
 for i in list_all_alert_col:
@@ -934,17 +650,10 @@ for i in list_all_alert_col:
         df_alerts4[i] = 0.0
 
 
-# In[739]:
 
 
 df_alerts4 = df_alerts4.fillna(0)
 
-
-# In[740]:
-
-
-
-# In[741]:
 
 
 df_alerts4['Brake_bin'] = df_alerts4['Brake'].apply(lambda x: 1 if x>0 else 0 )
@@ -986,14 +695,6 @@ f.write('984')
 f.close()
 
 
-
-# In[746]:
-
-
-df_oct6_impvar3
-
-
-# In[747]:
 
 
 import os
@@ -1050,25 +751,6 @@ from rpy2.robjects.packages import importr
 utils = importr('utils')
 
 
-# In[753]:
-
-
-# utils.install_packages('nnet')
-
-
-# In[754]:
-
-
-# utils.install_packages('e1071')
-
-
-# In[755]:
-
-
-# utils.install_packages('randomForest')
-
-
-# In[756]:
 
 
 randomForest=importr('randomForest')
@@ -1160,22 +842,6 @@ df_scored
 df_scored_email = df_scored[['Device','TM_BD_Prob', 'Engine_BD_Prob']]
 
 
-# In[764]:
-
-
-# df_scored_email
-
-
-# In[765]:
-
-
-# df_scored_email.rename(columns = {'final_chunk2':'DEVICE'}, inplace = True)
-
-
-# In[766]:
-
-
-# df_scored_email2 = df_scored_email.style.format({'PRED_PROB': '{:,.0%}'.format})
 
 
 # In[767]:
